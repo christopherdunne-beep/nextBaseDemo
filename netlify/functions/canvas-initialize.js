@@ -1,14 +1,34 @@
-exports.handler = async (event, context) => {                                                                                        
+ exports.handler = async (event, context) => {                                                                                        
+    // Add CORS headers                                                                                                                
+    const headers = {                                                                                                                  
+      'Content-Type': 'application/json',                                                                                              
+      'Access-Control-Allow-Origin': '*',                                                                                              
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, Intercom-Signature',                                               
+      'Access-Control-Allow-Methods': 'POST, OPTIONS'                                                                                  
+    }                                                                                                                                  
+                                                                                                                                       
+    // Handle preflight OPTIONS request                                                                                                
+    if (event.httpMethod === 'OPTIONS') {                                                                                              
+      return {                                                                                                                         
+        statusCode: 200,                                                                                                               
+        headers: headers,                                                                                                              
+        body: ''                                                                                                                       
+      }                                                                                                                                
+    }                                                                                                                                  
+                                                                                                                                       
     // Only accept POST requests                                                                                                       
     if (event.httpMethod !== 'POST') {                                                                                                 
       return {                                                                                                                         
         statusCode: 405,                                                                                                               
+        headers: headers,                                                                                                              
         body: JSON.stringify({ error: 'Method not allowed' })                                                                          
       }                                                                                                                                
     }                                                                                                                                  
                                                                                                                                        
     try {                                                                                                                              
       console.log('Nextbase Canvas Initialize')                                                                                        
+      console.log('Request headers:', event.headers)                                                                                   
+      console.log('Request body:', event.body)                                                                                         
                                                                                                                                        
       const components = [                                                                                                             
         {                                                                                                                              
@@ -186,9 +206,7 @@ exports.handler = async (event, context) => {
                                                                                                                                        
       return {                                                                                                                         
         statusCode: 200,                                                                                                               
-        headers: {                                                                                                                     
-          'Content-Type': 'application/json'                                                                                           
-        },                                                                                                                             
+        headers: headers,                                                                                                              
         body: JSON.stringify({                                                                                                         
           canvas: {                                                                                                                    
             content: {                                                                                                                 
@@ -201,9 +219,7 @@ exports.handler = async (event, context) => {
       console.error('Canvas initialize error:', error)                                                                                 
       return {                                                                                                                         
         statusCode: 200,                                                                                                               
-        headers: {                                                                                                                     
-          'Content-Type': 'application/json'                                                                                           
-        },                                                                                                                             
+        headers: headers,                                                                                                              
         body: JSON.stringify({                                                                                                         
           canvas: {                                                                                                                    
             content: {                                                                                                                 
@@ -212,6 +228,10 @@ exports.handler = async (event, context) => {
                   type: 'text',                                                                                                        
                   text: '⚠️ Error loading order data',                                                                                 
                   style: 'error'                                                                                                       
+                },                                                                                                                     
+                {                                                                                                                      
+                  type: 'text',                                                                                                        
+                  text: error.message                                                                                                  
                 }                                                                                                                      
               ]                                                                                                                        
             }                                                                                                                          
@@ -219,4 +239,4 @@ exports.handler = async (event, context) => {
         })                                                                                                                             
       }                                                                                                                                
     }                                                                                                                                  
-  }              
+  } 
