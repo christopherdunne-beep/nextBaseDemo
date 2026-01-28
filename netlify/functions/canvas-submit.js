@@ -1,4 +1,10 @@
-exports.handler = async (event, context) => {                                                                                        
+exports.handler = async (event, context) => { 
+      const headers = {                                                                                                                  
+      'Content-Type': 'application/json',                                                                                              
+      'Access-Control-Allow-Origin': '*',                                                                                              
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, Intercom-Signature',                                               
+      'Access-Control-Allow-Methods': 'POST, OPTIONS'                                                                                  
+    }     
     if (event.httpMethod !== 'POST') {                                                                                                 
       return {                                                                                                                         
         statusCode: 405,                                                                                                               
