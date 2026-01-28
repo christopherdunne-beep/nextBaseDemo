@@ -1,0 +1,11 @@
+{                                                                                                                                    
+    "canvas": {                                                                                                                        
+      "content_url": "REPLACE_WITH_YOUR_HOSTED_URL/canvas.html",                                                                       
+      "configuration_url": "",                                                                                                         
+      "contexts": {                                                                                                                    
+        "inbox": {                                                                                                                     
+          "location": "conversation"                                                                                                   
+        }                                                                                                                              
+      }                                                                                                                                
+    }                                                                                                                                  
+  }      
